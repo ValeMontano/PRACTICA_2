@@ -1,4 +1,4 @@
-name: email
+"""name: email
 
 on:
   schedule:
@@ -19,3 +19,4 @@ jobs:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: python send_email.py
+""""
