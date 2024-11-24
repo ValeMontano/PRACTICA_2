@@ -3,8 +3,8 @@ import ssl
 import os
 
 # Configuración del servidor SMTP y credenciales
-smtp_server = os.environ.get('SMTP_SERVER')
-port = int(os.environ.get('SMTP_PORT', 465))
+port = 465
+smtp_server = "smtp.gmail.com"
 username = os.environ.get('USER_EMAIL')
 password = os.environ.get('USER_PASSWORD')
 
