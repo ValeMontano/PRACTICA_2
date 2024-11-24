@@ -3,8 +3,8 @@ name: email
 on:
   push:
     branches:
-      - '**'  # Se activará para cualquier rama
-  workflow_dispatch: # Permite ejecución manual del workflow
+      - '**'  
+  workflow_dispatch: 
 
 jobs: 
   notify:
