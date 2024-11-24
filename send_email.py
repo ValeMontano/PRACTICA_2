@@ -3,14 +3,15 @@ import ssl
 import os
 
 # Configuración del servidor SMTP y credenciales
-port = 465
-smtp_server = "smtp.gmail.com"
+smtp_server = os.environ.get('SMTP_SERVER')
+port = int(os.environ.get('SMTP_PORT', 465))
 username = os.environ.get('USER_EMAIL')
 password = os.environ.get('USER_PASSWORD')
 
 # Contenido del correo
 branch_name = os.environ.get('BRANCH_NAME', 'Unknown Branch')
 repository = os.environ.get('REPOSITORY_NAME', 'Unknown Repository')
+
 subject = f"Changes pushed to branch: {branch_name}"
 body = f"""
 Hola,
@@ -21,7 +22,9 @@ Revisa el historial para más detalles.
 Saludos,
 GitHub Actions
 """
-message = f"Subject: {subject}\n\n{body}"
+
+# Codificar el mensaje en UTF-8
+message = f"Subject: {subject}\n\n{body}".encode('utf-8')
 
 # Conexión y envío
 context = ssl.create_default_context()
