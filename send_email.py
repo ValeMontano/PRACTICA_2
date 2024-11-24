@@ -22,7 +22,7 @@ Hola,
 Se han realizado cambios en la rama '{branch_name}' del repositorio '{repository}'.
 Revisa el historial de commits para más detalles.
 
-Saludos.
+Saludos,
 GitHub Actions
 """
 
