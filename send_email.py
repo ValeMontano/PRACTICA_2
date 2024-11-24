@@ -2,39 +2,35 @@ import smtplib
 import ssl
 import os
 
-# Configuración del servidor SMTP y credenciales
-smtp_server = os.environ.get('SMTP_SERVER')
-port = int(os.environ.get('SMTP_PORT', 465))
-username = os.environ.get('USER_EMAIL')
-password = os.environ.get('USER_PASSWORD')
+# Configuración del servidor SMTP
+port = 465
+smtp_server = "smtp.gmail.com"
+USERNAME = os.environ.get('USER_EMAIL')
+PASSWORD = os.environ.get('USER_PASSWORD')
 
-# Contenido del correo
-branch_name = os.environ.get('BRANCH_NAME', 'Unknown Branch')
-repository = os.environ.get('REPOSITORY_NAME', 'Unknown Repository')
+# Información del repositorio y rama
+branch_name = os.environ.get('GITHUB_REF', 'Unknown branch').split('/')[-1]
+repository = os.environ.get('GITHUB_REPOSITORY', 'Unknown repository')
 
+# Construcción del mensaje
 subject = f"Changes pushed to branch: {branch_name}"
 body = f"""
 Hola,
 
-Se han realizado cambios en la rama {branch_name} del repositorio {repository}.
-Revisa el historial para más detalles.
+Se han realizado cambios en la rama '{branch_name}' del repositorio '{repository}'.
+Revisa el historial de commits para más detalles.
 
 Saludos,
 GitHub Actions
 """
+message = f"Subject: {subject}\n\n{body}"
 
-# Codificar el mensaje en UTF-8
-message = f"Subject: {subject}\n\n{body}".encode('utf-8')
-
-# Conexión y envío
+# Envío del correo
 context = ssl.create_default_context()
 try:
-    print(f"Connecting to SMTP server {smtp_server}:{port}")
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(username, password)
-        server.sendmail(username, username, message)
-        print("Correo enviado con éxito")
-except smtplib.SMTPException as e:
-    print(f"Error al enviar el correo: {e}")
+        server.login(USERNAME, PASSWORD)
+        server.sendmail(USERNAME, USERNAME, message)
+        print("Correo enviado con éxito.")
 except Exception as e:
-    print(f"Error inesperado: {e}")
+    print(f"Error al enviar el correo: {e}")
